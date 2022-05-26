@@ -1,3 +1,4 @@
+# SEE BELOW LINK FOR CHANGES (if container does not build) ############################################
 # First part from : https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
 #######################################################################################################
 ARG UBUNTU_VERSION=20.04
@@ -6,7 +7,7 @@ ARG CUDA=11.2
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.1-base-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
 # (but their default value is retained if set previously)
-ARG GIT_PROJECT_NAME=intrinsic_project
+ARG GIT_PROJECT_NAME=intrinsic-project
 ARG ARCH
 ARG CUDA
 ARG CUDNN=8.1.0.77-1
@@ -21,7 +22,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Needed for string substitution
 SHELL ["/bin/bash", "-c"]
 # Pick up some TF dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub && \
+    apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         cuda-command-line-tools-${CUDA/./-} \
         libcublas-${CUDA/./-} \
