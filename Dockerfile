@@ -7,7 +7,7 @@ ARG CUDA=11.2
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.1-base-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
 # (but their default value is retained if set previously)
-ARG GIT_PROJECT_NAME=intrinsic-project
+ARG GIT_PROJECT_NAME=irl_control
 ARG ARCH
 ARG CUDA
 ARG CUDNN=8.1.0.77-1
@@ -107,15 +107,13 @@ ENV LD_LIBRARY_PATH /usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 # Workaround for https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-375/+bug/1674677
 # COPY ./vendor/10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
-WORKDIR /root/${GIT_PROJECT_NAME}/libs/mujoco-py
-COPY ./requirements.txt /root/${GIT_PROJECT_NAME}/libs/mujoco-py/
-COPY ./requirements.dev.txt /root/${GIT_PROJECT_NAME}/libs/mujoco-py/
+WORKDIR /root/${GIT_PROJECT_NAME}/libraries/mujoco-py
+COPY ./requirements.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
+COPY ./requirements.dev.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.dev.txt
 
-#COPY . /root/libs/mujoco-py
 #RUN python3 -m pip install .
 
 # This is used to configure pytest
 ENV REGENERATE_TEST_IMAGES 1
-# Once the container is built, make sure to run pytest from the /root/libs/mujoco_py directory to verify it works
