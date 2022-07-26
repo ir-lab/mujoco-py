@@ -1,13 +1,14 @@
-# SEE BELOW LINK FOR CHANGES (if container does not build) ############################################
-# First part from : https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
-#######################################################################################################
+#################### See link below for changes if First Part of container does not build ####################
+# https://github.com/tensorflow/tensorflow/blob/master/tensorflow/tools/dockerfiles/dockerfiles/gpu.Dockerfile
+##############################################################################################################
+# Begin First Part
+##############################################################################################################
 ARG UBUNTU_VERSION=20.04
 ARG ARCH=
 ARG CUDA=11.2
 FROM nvidia/cuda${ARCH:+-$ARCH}:${CUDA}.1-base-ubuntu${UBUNTU_VERSION} as base
 # ARCH and CUDA are specified again because the FROM directive resets ARGs
 # (but their default value is retained if set previously)
-ARG GIT_PROJECT_NAME=irl_control
 ARG ARCH
 ARG CUDA
 ARG CUDNN=8.1.0.77-1
@@ -15,6 +16,8 @@ ARG CUDNN_MAJOR_VERSION=8
 ARG LIB_DIR_PREFIX=x86_64
 ARG LIBNVINFER=7.2.2-1
 ARG LIBNVINFER_MAJOR_VERSION=7
+
+ARG GIT_PROJECT_NAME=my_project
 
 # Let us install tzdata painlessly
 ENV DEBIAN_FRONTEND=noninteractive
@@ -78,7 +81,9 @@ ARG TF_PACKAGE=tensorflow-gpu
 ARG TF_PACKAGE_VERSION=2.7
 RUN python3 -m pip install --no-cache-dir ${TF_PACKAGE}${TF_PACKAGE_VERSION:+==${TF_PACKAGE_VERSION}}
 
-#######################################################################################################
+##############################################################################################################
+# End First Part
+##############################################################################################################
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -112,8 +117,6 @@ COPY ./requirements.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
 COPY ./requirements.dev.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 RUN python3 -m pip install --no-cache-dir -r requirements.dev.txt
-
-#RUN python3 -m pip install .
 
 # This is used to configure pytest
 ENV REGENERATE_TEST_IMAGES 1
