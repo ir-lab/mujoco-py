@@ -77,9 +77,6 @@ RUN python3 -m pip --no-cache-dir install --upgrade \
 # Some TF tools expect a "python" binary
 RUN ln -s $(which python3) /usr/local/bin/python
 
-ARG TF_PACKAGE=tensorflow-gpu
-ARG TF_PACKAGE_VERSION=2.7
-RUN python3 -m pip install --no-cache-dir ${TF_PACKAGE}${TF_PACKAGE_VERSION:+==${TF_PACKAGE_VERSION}}
 
 ##############################################################################################################
 # End First Part
@@ -112,11 +109,11 @@ ENV LD_LIBRARY_PATH /usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 # Workaround for https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-375/+bug/1674677
 # COPY ./vendor/10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
-WORKDIR /root/${GIT_PROJECT_NAME}/libraries/mujoco-py
-COPY ./requirements.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
-COPY ./requirements.dev.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
-RUN python3 -m pip install --no-cache-dir -r requirements.dev.txt
+# WORKDIR /root/${GIT_PROJECT_NAME}/libraries/mujoco-py
+# COPY ./requirements.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
+# COPY ./requirements.dev.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
+# RUN python3 -m pip install --no-cache-dir -r requirements.txt
+# RUN python3 -m pip install --no-cache-dir -r requirements.dev.txt
 
 # This is used to configure pytest
-ENV REGENERATE_TEST_IMAGES 1
+# ENV REGENERATE_TEST_IMAGES 1
