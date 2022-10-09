@@ -77,6 +77,12 @@ RUN python3 -m pip --no-cache-dir install --upgrade \
 # Some TF tools expect a "python" binary
 RUN ln -s $(which python3) /usr/local/bin/python
 
+<<<<<<< HEAD
+=======
+# ARG TF_PACKAGE=tensorflow-gpu
+# ARG TF_PACKAGE_VERSION=2.7
+# RUN python3 -m pip install --no-cache-dir ${TF_PACKAGE}${TF_PACKAGE_VERSION:+==${TF_PACKAGE_VERSION}}
+>>>>>>> 09de909
 
 ##############################################################################################################
 # End First Part
@@ -98,22 +104,22 @@ RUN apt-get install -y --no-install-recommends \
     patchelf \
     libglfw3
 
-RUN mkdir -p /root/.mujoco \
+RUN mkdir -p /home/docker/.mujoco \
     && wget https://mujoco.org/download/mujoco210-linux-x86_64.tar.gz -O mujoco.tar.gz \
-    && tar -xf mujoco.tar.gz -C /root/.mujoco \
+    && tar -xf mujoco.tar.gz -C /home/docker/.mujoco \
     && rm mujoco.tar.gz
 
-ENV LD_LIBRARY_PATH /root/.mujoco/mujoco210/bin:${LD_LIBRARY_PATH}
+ENV LD_LIBRARY_PATH /home/docker/.mujoco/mujoco210/bin:${LD_LIBRARY_PATH}
 ENV LD_LIBRARY_PATH /usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
 
 # Workaround for https://bugs.launchpad.net/ubuntu/+source/nvidia-graphics-drivers-375/+bug/1674677
 # COPY ./vendor/10_nvidia.json /usr/share/glvnd/egl_vendor.d/10_nvidia.json
 
-# WORKDIR /root/${GIT_PROJECT_NAME}/libraries/mujoco-py
-# COPY ./requirements.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
-# COPY ./requirements.dev.txt /root/${GIT_PROJECT_NAME}/libraries/mujoco-py/
+# WORKDIR /home/docker/${GIT_PROJECT_NAME}/libraries/mujoco-py
+# COPY ./requirements.txt /home/docker/${GIT_PROJECT_NAME}/libraries/mujoco-py/
+# COPY ./requirements.dev.txt /home/docker/${GIT_PROJECT_NAME}/libraries/mujoco-py/
 # RUN python3 -m pip install --no-cache-dir -r requirements.txt
 # RUN python3 -m pip install --no-cache-dir -r requirements.dev.txt
 
-# This is used to configure pytest
+# # This is used to configure pytest
 # ENV REGENERATE_TEST_IMAGES 1
