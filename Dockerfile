@@ -77,12 +77,9 @@ RUN python3 -m pip --no-cache-dir install --upgrade \
 # Some TF tools expect a "python" binary
 RUN ln -s $(which python3) /usr/local/bin/python
 
-<<<<<<< HEAD
-=======
 # ARG TF_PACKAGE=tensorflow-gpu
 # ARG TF_PACKAGE_VERSION=2.7
 # RUN python3 -m pip install --no-cache-dir ${TF_PACKAGE}${TF_PACKAGE_VERSION:+==${TF_PACKAGE_VERSION}}
->>>>>>> 09de909
 
 ##############################################################################################################
 # End First Part
