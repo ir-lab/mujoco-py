@@ -1,0 +1,12 @@
+cffi
+Cython
+fasteners
+glfw
+imagehash
+imageio
+numpy
+openvr
+Pillow
+pycparser
+PyOpenGL
+pytest
