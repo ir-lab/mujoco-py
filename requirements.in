@@ -2,11 +2,13 @@ cffi
 Cython
 fasteners
 glfw
-imagehash
+ImageHash
 imageio
+ipdb
 numpy
 openvr
 Pillow
 pycparser
 PyOpenGL
 pytest
+sympy
